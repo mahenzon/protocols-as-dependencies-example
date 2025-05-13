@@ -6,12 +6,16 @@ from backends.base_email_backend import BaseEmailBackend
 
 
 class FileEmailBackend(BaseEmailBackend):
-    def __init__(self, directory: Path) -> None:
+    def __init__(
+        self,
+        directory: Path,
+    ) -> None:
         self.directory = directory
         self.directory.mkdir(parents=True, exist_ok=True)
 
+    @classmethod
     def get_filename(
-        self,
+        cls,
         recipient: str,
         subject: str,
     ) -> str:
@@ -27,8 +31,12 @@ class FileEmailBackend(BaseEmailBackend):
         subject: str,
         body: str,
     ) -> None:
-        filename = self.get_filename(recipient, subject)
+        filename = self.get_filename(
+            recipient=recipient,
+            subject=subject,
+        )
         filepath = self.directory / filename
+
         with filepath.open("w") as f:
             f.write(f"To: {recipient}\n")
             f.write(f"Subject: {subject}\n\n")

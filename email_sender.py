@@ -6,7 +6,10 @@ log = logging.getLogger(__name__)
 
 
 class EmailSender:
-    def __init__(self, backend: BaseEmailBackend) -> None:
+    def __init__(
+        self,
+        backend: BaseEmailBackend,
+    ) -> None:
         self.backend = backend
 
     def send(
@@ -15,11 +18,7 @@ class EmailSender:
         subject: str,
         body: str,
     ) -> None:
-        self.backend.send_email(
-            recipient,
-            subject,
-            body,
-        )
+        self.backend.send_email(recipient=recipient, subject=subject, body=body)
 
     def send_with_template(
         self,

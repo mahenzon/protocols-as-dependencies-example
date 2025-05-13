@@ -2,6 +2,7 @@ from typing import Protocol
 
 
 class BaseEmailBackend(Protocol):
+
     def send_email(
         self,
         recipient: str,

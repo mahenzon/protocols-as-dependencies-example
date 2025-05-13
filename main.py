@@ -1,23 +1,24 @@
-from backends.smtp_email_backend import SmtpEmailBackend
-from backends.logging_email_backend import LoggingEmailBackend
 from backends.file_email_backend import FileEmailBackend
+from backends.logging_email_backend import LoggingEmailBackend
+from backends.smtp_email_backend import SmtpEmailBackend
 from common import configure_logging, BASE_DIR
 from email_sender import EmailSender
 
-welcome_template = """\
+WELCOME_TEMPLATE = """\
 Dear {name},
 
-Welcome to our site!
+Welcome to our website!
 
 Best regards,
 The Team.
 """
 
 
-def send_emails(sender: EmailSender) -> None:
+def send_mails(sender: EmailSender) -> None:
+    name = "Bob"
     recipient = "bob@ya.ru"
-    subject = "Welcome Message"
-    body = "Dear user, thank you for registering!"
+    subject = "Welcome to site!"
+    body = "Welcome to our site!"
 
     sender.send(
         recipient=recipient,
@@ -28,30 +29,30 @@ def send_emails(sender: EmailSender) -> None:
     sender.send_with_template(
         recipient=recipient,
         subject=subject,
-        template=welcome_template,
-        name="John",
+        template=WELCOME_TEMPLATE,
+        name=name,
     )
 
 
 def main() -> None:
     configure_logging()
+
     logging_backend = LoggingEmailBackend("sender")
     sender = EmailSender(backend=logging_backend)
-    send_emails(sender)
+    send_mails(sender)
 
-    emails_path = BASE_DIR / "emails"
-
-    file_backend = FileEmailBackend(directory=emails_path)
+    emails_directory = BASE_DIR / "emails"
+    file_backend = FileEmailBackend(directory=emails_directory)
     sender = EmailSender(backend=file_backend)
-    send_emails(sender)
+    send_mails(sender)
 
     smtp_backend = SmtpEmailBackend(
         smtp_server="localhost",
         smtp_port=1025,
-        from_email="admin@internet.ru",
+        from_email="admin@site.ru",
     )
     sender = EmailSender(backend=smtp_backend)
-    send_emails(sender)
+    send_mails(sender)
 
 
 if __name__ == "__main__":

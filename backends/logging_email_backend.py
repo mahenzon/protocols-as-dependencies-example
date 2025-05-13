@@ -14,7 +14,7 @@ class LoggingEmailBackend(BaseEmailBackend):
         body: str,
     ) -> None:
         self.log.info(
-            "Sending email to %r with subject %r and body %r",
+            "Sending email to %r with subject %r and body %r.",
             recipient,
             subject,
             body,

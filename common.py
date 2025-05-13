@@ -4,7 +4,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
 
-def configure_logging(level: int = logging.INFO) -> None:
+def configure_logging(
+    level: int = logging.INFO,
+) -> None:
     logging.basicConfig(
         level=level,
         datefmt="%Y-%m-%d %H:%M:%S",
